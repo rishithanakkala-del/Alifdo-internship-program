@@ -1,153 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Rishitha | Portfolio</title>
- <style>
-  body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #f5f5fa, #c3cfe2);
+<meta charset="UTF-8">
+<title>Quiz App</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#eef2f7;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
 }
 
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 15px;
-  background: #222;
+.quiz-box{
+background:white;
+padding:25px;
+width:400px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+text-align:center;
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
+h2{
+margin-bottom:20px;
 }
 
-section {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  line-height: 1.6;
+button{
+display:block;
+width:100%;
+margin:10px 0;
+padding:10px;
+border:none;
+background:#4b6cb7;
+color:white;
+border-radius:6px;
+cursor:pointer;
 }
 
-.hero {
-  text-align: center;
+button:hover{
+background:#3a56a1;
 }
 
-.btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 20px;
-  background: #4b6cb7;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
+#result{
+font-size:20px;
+margin-top:15px;
+font-weight:bold;
 }
 
-ul {
-  padding-left: 20px;
-}
-
-.certificates {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.certificates-card {
-  text-align: center;
-  padding: 15px;
-  background: #fafafa;
-  border-radius: 10px;
-  text-decoration: none;
-  color: black;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-footer {
-  text-align: center;
-  padding: 15px;
-  background: #222;
-  color: white;
-}
- </style>
+</style>
 </head>
 
 <body>
 
-<nav>
-  <a href="#about">About</a>
-  <a href="#skills">Skills</a>
-  <a href="#education">Education</a>
-  <a href="#certifications">Certifications</a>
-  <a href="#contact">Contact</a>
-</nav>
+<div class="quiz-box">
 
-<section class="hero">
-  <h1>Hello, I'm Rishitha Nakkala</h1>
-  <h3>B.Tech 3rd Year CSE | Aspiring Data Analyst & Full Stack Developer</h3>
-  <p>
-    Passionate about turning data into insights using Excel, Python,
-    and Web Technologies.
-  </p>
-  <a href="resume.pdf" class="btn">Download Resume</a>
-</section>
+<h2 id="question">Question</h2>
 
-<section id="about">
-  <h2>About Me</h2>
-  <p>
-    I am a B.Tech 3rd year CSE student aiming to become a skilled
-    Data Analyst and Full Stack Developer. I enjoy coding, data
-    visualization, and building real-world projects.
-  </p>
-  <p>
-    <strong>Languages:</strong> Telugu, English<br>
-    <strong>Location:</strong> Andhra Pradesh, India
-  </p>
-</section>
+<div id="answers"></div>
 
-<section id="skills">
-  <h2>Skills</h2>
-  <ul>
-    <li>MS Excel</li>
-    <li>Python</li>
-    <li>Full Stack Basics</li>
-    <li>Communication</li>
-    <li>Time Management</li>
-  </ul>
-</section>
+<p id="result"></p>
 
-<section id="education">
-  <h2>Education</h2>
+</div>
 
-  <p>Intermediate – Viveka Jr College</p>
-  <p>B.Tech CSE – St. Ann’s College, Chirala</p>
-</section>
+<script>
 
-<section id="certifications">
-  <h2>Certifications</h2>
-  <div class="certificates">
-    <a href="certificate1.pdf" target="_blank" class="certificates-card">
-      Certificate 1
-    </a>
-    <a href="certificate2.pdf" target="_blank" class="certificates-card">
-      Certificate 2
-    </a>
-  </div>
-</section>
+const quiz=[
+{
+question:"What does HTML stand for?",
+answers:[
+"Hyper Text Markup Language",
+"Home Tool Markup Language",
+"Hyperlinks Text Management Language",
+"Hyper Tool Multi Language"
+],
+correct:0
+},
 
-<section id="contact">
-  <h2>Contact</h2>
-  <p>Email: rishithanakkala@email.com</p>
-  <p>LinkedIn: linkedin.com/in/rishitha</p>
-</section>
+{
+question:"Which language is used for styling web pages?",
+answers:[
+"HTML",
+"JQuery",
+"CSS",
+"Python"
+],
+correct:2
+},
 
-<footer>
-  <p>© 2026 Rishitha Nakkala</p>
-</footer>
+{
+question:"Which language is used for web page interaction?",
+answers:[
+"JavaScript",
+"C++",
+"Java",
+"PHP"
+],
+correct:0
+}
+];
+
+let current=0;
+let score=0;
+
+function loadQuestion(){
+
+let q=quiz[current];
+document.getElementById("question").innerText=q.question;
+
+let answersHTML="";
+
+q.answers.forEach((ans,index)=>{
+answersHTML+=`<button onclick="checkAnswer(${index})">${ans}</button>`;
+});
+
+document.getElementById("answers").innerHTML=answersHTML;
+
+}
+
+function checkAnswer(index){
+
+if(index===quiz[current].correct){
+score++;
+}
+
+current++;
+
+if(current<quiz.length){
+loadQuestion();
+}else{
+document.getElementById("question").innerText="Quiz Finished";
+document.getElementById("answers").innerHTML="";
+document.getElementById("result").innerText="Your Score: "+score+"/"+quiz.length;
+}
+
+}
+
+loadQuestion();
+
+</script>
 
 </body>
 </html>
